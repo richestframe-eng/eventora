@@ -1,0 +1,417 @@
+
+/* ---------- 1. CSS Variables ---------- */
+:root {
+  /* Raw color palette: navy, white, electric blue */
+  --navy-900: #0a1a3f;
+  --navy-800: #102a5c;
+  --blue-400: #4d8dff;   /* lighter blue, for use on dark backgrounds */
+  --blue-500: #1f6bff;   /* electric blue (main accent) */
+  --blue-600: #1556d6;   /* darker blue for hover */
+  --blue-100: #e6efff;
+  --white: #ffffff;
+  --gray-50: #f4f7fc;
+  --gray-200: #dbe3f1;
+  --gray-500: #5b6b8c;
+  --gray-900: #14213d;
+
+  /* Semantic colors: use THESE in the rest of the CSS.
+     Dark mode (bonus) will only need to change these. */
+  --color-bg: var(--white);
+  --color-bg-alt: var(--gray-50);
+  --color-surface: var(--white);
+  --color-text: var(--gray-900);
+  --color-text-muted: var(--gray-500);
+  --color-border: var(--gray-200);
+  --color-primary: var(--blue-500);
+  --color-primary-hover: var(--blue-600);
+  --color-dark: var(--navy-900);
+
+  /* Typography */
+  --font-main: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+
+  /* Spacing, shape and effects */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --shadow-sm: 0 2px 8px rgba(10, 26, 63, 0.08);
+  --shadow-md: 0 8px 24px rgba(10, 26, 63, 0.12);
+  --transition: 0.3s ease;
+
+  /* Layout */
+  --container-width: 1140px;
+  --navbar-height: 64px;
+}
+
+
+/* ---------- 2. Reset & Base ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--navbar-height); /* keeps anchor targets below the sticky navbar */
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-main);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+
+  /* Makes the footer stay at the bottom on short pages */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Visible keyboard focus (good for accessibility) */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--blue-500);
+  outline-offset: 2px;
+}
+
+
+/* ---------- 3. Typography ---------- */
+h1,
+h2,
+h3 {
+  margin: 0 0 0.75rem;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+/* clamp(min, preferred, max) makes text scale smoothly with screen width */
+h1 { font-size: clamp(2rem, 5vw, 3.25rem); }
+h2 { font-size: clamp(1.5rem, 3.5vw, 2.25rem); }
+h3 { font-size: 1.25rem; }
+
+p {
+  margin: 0 0 1rem;
+}
+
+
+/* ---------- 4. Layout Utilities ---------- */
+.container {
+  width: 100%;
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.section {
+  padding: 3rem 0;
+}
+
+.section--alt {
+  background-color: var(--color-bg-alt);
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.section-subtitle {
+  text-align: center;
+  color: var(--color-text-muted);
+  max-width: 600px;
+  margin: 0 auto 2.5rem;
+}
+
+/* Card grid: 1 column on mobile (more columns in the media queries) */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* Used later to show/hide things with JavaScript */
+.hidden {
+  display: none !important;
+}
+
+
+/* ---------- 5. Buttons & Badges ---------- */
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  border: 2px solid transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background-color var(--transition), color var(--transition),
+              transform var(--transition), box-shadow var(--transition);
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: var(--white);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-outline {
+  background-color: transparent;
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.btn-outline:hover {
+  background-color: var(--color-primary);
+  color: var(--white);
+}
+
+/* Small label, used later for event categories */
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  background-color: var(--blue-100);
+  border-radius: 999px;
+}
+
+
+/* ---------- 6. Navbar ---------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: var(--color-dark);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.navbar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--navbar-height);
+}
+
+.navbar__logo {
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: var(--white);
+}
+
+.navbar__logo span {
+  color: var(--blue-400);
+}
+
+/* Hamburger button (visible on mobile only) */
+.navbar__toggle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  padding: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.navbar__toggle span {
+  display: block;
+  width: 100%;
+  height: 3px;
+  background-color: var(--white);
+  border-radius: 2px;
+  transition: transform var(--transition), opacity var(--transition);
+}
+
+/* Turns the hamburger into an X when the menu is open */
+.navbar__toggle.is-open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.navbar__toggle.is-open span:nth-child(2) { opacity: 0; }
+.navbar__toggle.is-open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+/* Mobile menu: hidden by default, slides open with the "is-open" class */
+.navbar__menu {
+  position: absolute;
+  top: var(--navbar-height);
+  left: 0;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background-color: var(--navy-800);
+  max-height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  transition: max-height 0.4s ease, visibility 0.4s;
+}
+
+.navbar__menu.is-open {
+  max-height: 300px;
+  visibility: visible;
+}
+
+.navbar__link {
+  display: block;
+  padding: 1rem 1.5rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  transition: color var(--transition), background-color var(--transition);
+}
+
+.navbar__link:hover,
+.navbar__link.active {
+  color: var(--white);
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+
+/* ---------- 7. Footer ---------- */
+.site-footer {
+  padding-top: 3rem;
+  color: rgba(255, 255, 255, 0.75);
+  background-color: var(--color-dark);
+}
+
+.footer__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+.footer__logo {
+  display: inline-block;
+  margin-bottom: 0.75rem;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--white);
+}
+
+.footer__logo span {
+  color: var(--blue-400);
+}
+
+.footer__title {
+  margin-bottom: 1rem;
+  font-size: 1.05rem;
+  color: var(--white);
+}
+
+.footer__links {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.footer__links li {
+  margin-bottom: 0.5rem;
+}
+
+.footer__links a {
+  transition: color var(--transition);
+}
+
+.footer__links a:hover {
+  color: var(--blue-400);
+}
+
+.footer__bottom {
+  margin-top: 2rem;
+  padding: 1.25rem 0;
+  font-size: 0.9rem;
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+
+/* ---------- 8. Responsive Media Queries ---------- */
+/* Mobile styles are the defaults above. We only ADD rules for bigger screens. */
+
+/* Tablet: 768px and up */
+@media (min-width: 768px) {
+  .section {
+    padding: 4.5rem 0;
+  }
+
+  .container {
+    padding: 0 1.5rem;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Navbar becomes a horizontal menu; hamburger is hidden */
+  .navbar__toggle {
+    display: none;
+  }
+
+  .navbar__menu {
+    position: static;
+    display: flex;
+    width: auto;
+    max-height: none;
+    overflow: visible;
+    visibility: visible;
+    background-color: transparent;
+    gap: 0.5rem;
+  }
+
+  .navbar__link {
+    display: flex;
+    align-items: center;
+    height: var(--navbar-height);
+    padding: 0 1rem;
+    border-bottom: 3px solid transparent;
+  }
+
+  .navbar__link:hover,
+  .navbar__link.active {
+    background-color: transparent;
+    border-bottom-color: var(--blue-400);
+  }
+
+  .footer__grid {
+    grid-template-columns: 2fr 1fr 1fr;
+  }
+}
+
+/* Desktop: 1024px and up */
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
