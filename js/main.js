@@ -1,3 +1,9 @@
+// ===========================================================
+// Eventora - Shared JavaScript (runs on every page)
+// Builds the navbar and footer, handles the mobile menu,
+// highlights the current page's link, and holds shared helpers.
+// ===========================================================
+
 
 // ---------- 1. Build the navbar ----------
 function loadNavbar() {
@@ -106,6 +112,54 @@ function highlightActiveLink() {
       link.setAttribute("aria-current", "page");
     }
   });
+}
+
+
+// ---------- 5. Shared helpers (used by more than one page) ----------
+
+// "2026-11-21T10:00:00"  ->  "Sat, Nov 21, 2026"
+function formatDate(isoString) {
+  return new Date(isoString).toLocaleDateString("en-US", {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+    year: "numeric"
+  });
+}
+
+// "2026-11-21T10:00:00"  ->  "10:00 AM"
+function formatTime(isoString) {
+  return new Date(isoString).toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit"
+  });
+}
+
+// Builds the HTML for ONE event card (used on the homepage and Events page).
+// If an image file is missing, "onerror" hides it so the gradient shows instead.
+function createEventCard(event) {
+  return `
+    <article class="event-card">
+      <div class="event-card__image-wrap">
+        <img class="event-card__image" src="${event.image}" alt="${event.name}"
+             loading="lazy" onerror="this.classList.add('img-error')">
+        <span class="badge event-card__badge">${event.category}</span>
+      </div>
+
+      <div class="event-card__body">
+        <h3 class="event-card__title">${event.name}</h3>
+
+        <ul class="event-card__meta">
+          <li><span aria-hidden="true">📅</span> ${formatDate(event.date)} &middot; ${formatTime(event.date)}</li>
+          <li><span aria-hidden="true">📍</span> ${event.venue}</li>
+        </ul>
+
+        <p class="event-card__text">${event.shortDescription}</p>
+
+        <a href="event.html?id=${event.id}" class="event-card__link">View Details &rarr;</a>
+      </div>
+    </article>
+  `;
 }
 
 

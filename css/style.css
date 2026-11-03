@@ -357,7 +357,168 @@ p {
 }
 
 
-/* ---------- 8. Responsive Media Queries ---------- */
+/* ---------- 8. Hero Section ---------- */
+.hero {
+  display: flex;
+  align-items: center;
+  min-height: 75vh;
+  padding: 4rem 0;
+  color: var(--white);
+  background-color: var(--color-dark);
+
+  /* Layers, top to bottom: blue glow, dark overlay, photo.
+     If the photo file is missing, you still get a clean navy background. */
+  background-image:
+    radial-gradient(circle at 85% 15%, rgba(31, 107, 255, 0.35), transparent 55%),
+    linear-gradient(rgba(10, 26, 63, 0.88), rgba(10, 26, 63, 0.8)),
+    url("../images/hero/hero-bg.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.hero__content {
+  max-width: 650px;
+}
+
+.hero__eyebrow {
+  display: inline-block;
+  margin-bottom: 1rem;
+  padding: 0.35rem 0.9rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--blue-400);
+  background-color: rgba(77, 141, 255, 0.12);
+  border: 1px solid rgba(77, 141, 255, 0.35);
+  border-radius: 999px;
+}
+
+.hero__title {
+  margin-bottom: 1rem;
+  color: var(--white);
+}
+
+.hero__title span {
+  color: var(--blue-400);
+}
+
+.hero__text {
+  max-width: 540px;
+  margin-bottom: 2rem;
+  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+
+/* ---------- 9. Event Cards ---------- */
+/* Reused on the homepage now, and on the Events page in Stage 3 */
+.event-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.event-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-md);
+}
+
+/* The gradient is a fallback: it shows if the image file is missing */
+.event-card__image-wrap {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--navy-800), var(--blue-500));
+}
+
+.event-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.event-card:hover .event-card__image {
+  transform: scale(1.06);
+}
+
+/* Added by JavaScript (onerror) when an image fails to load */
+.event-card__image.img-error {
+  display: none;
+}
+
+.event-card__badge {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+}
+
+.event-card__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 1.25rem;
+}
+
+.event-card__title {
+  margin-bottom: 0.75rem;
+  font-size: 1.2rem;
+}
+
+.event-card__meta {
+  margin: 0 0 0.75rem;
+  padding: 0;
+  list-style: none;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+}
+
+.event-card__meta li {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.35rem;
+}
+
+/* flex: 1 pushes the "View Details" link to the bottom of every card,
+   so links line up even when descriptions have different lengths */
+.event-card__text {
+  flex: 1;
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+}
+
+.event-card__link {
+  font-weight: 600;
+  color: var(--color-primary);
+  transition: color var(--transition);
+}
+
+.event-card__link:hover {
+  color: var(--color-primary-hover);
+  text-decoration: underline;
+}
+
+
+/* ---------- 10. Homepage Extras ---------- */
+.btn-lg {
+  padding: 1rem 2rem;
+  font-size: 1.05rem;
+}
+
+.section-cta {
+  margin-top: 2.5rem;
+  text-align: center;
+}
+
+
+/* ---------- 11. Responsive Media Queries ---------- */
 /* Mobile styles are the defaults above. We only ADD rules for bigger screens. */
 
 /* Tablet: 768px and up */
@@ -407,11 +568,33 @@ p {
   .footer__grid {
     grid-template-columns: 2fr 1fr 1fr;
   }
+
+  /* NEW (Stage 2): hero gets more breathing room */
+  .hero {
+    padding: 6rem 0;
+  }
+
+  .hero__text {
+    font-size: 1.2rem;
+  }
 }
 
 /* Desktop: 1024px and up */
 @media (min-width: 1024px) {
   .grid {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* NEW (Stage 2): the featured grid has 4 cards, so keep 2 columns here
+     to avoid a lonely 4th card on its own row */
+  .grid--four {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* NEW (Stage 2): large desktop, 1200px and up */
+@media (min-width: 1200px) {
+  .grid--four {
+    grid-template-columns: repeat(4, 1fr);
   }
 }

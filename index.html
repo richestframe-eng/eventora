@@ -4,14 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Eventora - discover and register for upcoming events.">
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <title>Eventora | Discover Events</title>
 
   <!-- Inter font (falls back to system fonts if it fails to load) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
 
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -21,22 +19,48 @@
   <header id="site-header" class="site-header"></header>
 
   <main>
-    <section class="section">
-      <div class="container text-center">
-        <h1>Eventora: Stage 1 Test</h1>
-        <p>If you can see the navbar above and the footer below, Stage 1 works.</p>
-        <span class="badge">Technology</span>
-        <p></p>
-        <a href="#" class="btn btn-primary">Primary Button</a>
-        <a href="#" class="btn btn-outline">Outline Button</a>
+
+    <!-- ===== Hero Section ===== -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero__content">
+          <p class="hero__eyebrow">Discover &bull; Explore &bull; Register</p>
+          <h1 class="hero__title">Discover Events That <span>Inspire</span> You</h1>
+          <p class="hero__text">
+            Eventora brings the best tech talks, concerts, workshops, sports and
+            cultural events together in one place. Browse what's coming up and
+            register in minutes.
+          </p>
+          <a href="events.html" class="btn btn-primary btn-lg">Explore Events</a>
+        </div>
       </div>
     </section>
+
+    <!-- ===== Featured Events Section ===== -->
+    <section class="section section--alt" id="featured">
+      <div class="container">
+        <h2 class="section-title">Featured Events</h2>
+        <p class="section-subtitle">
+          Hand-picked events you won't want to miss.
+        </p>
+
+        <!-- home.js fills this with event cards -->
+        <div class="grid grid--four" id="featured-events"></div>
+
+        <div class="section-cta">
+          <a href="events.html" class="btn btn-outline btn-lg">View All Events &rarr;</a>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <!-- main.js fills this with the footer -->
   <footer id="site-footer" class="site-footer"></footer>
 
+  <!-- Order matters: data first, shared code second, page code last -->
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/home.js"></script>
 </body>
 </html>
